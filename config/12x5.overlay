@@ -1,0 +1,51 @@
+/*
+ * Copyright (c) 2020 The ZMK Contributors
+ *
+ * SPDX-License-Identifier: MIT
+ * This files defines the KSCAN driver for detecting key press/release.
+ */
+
+/*
+ * The 12x5.overlay is the devicetree description of the keyboard shield 
+ * that is merged with the primary board devicetree description before 
+ * the build. For ZMK, this file at a minimum should include the chosen 
+ * node named zmk,kscan that references a KSCAN driver instance.
+ */
+
+// Provides the RC macro used for Matrix Transformations
+#include <dt-bindings/zmk/matrix_transform.h>
+
+/ {
+    chosen {
+        zmk,kscan = &kscan0;
+    };
+
+    kscan0: kscan_0 { 
+        compatible = "zmk,kscan-gpio-matrix";
+        label = "KSCAN";
+        diode-direction = "col2row"; // keypresses work... gotta figure out the mapping now
+    
+        row-gpios
+            = <&pro_micro_a 2  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> // yellow row 0  29 new blue
+            , <&pro_micro_a 3  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> // green  row 1  31 new purple
+            , <&pro_micro_a 1  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> // black  row 2  02 new grey
+            , <&pro_micro_d 1  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> // red    row 3     new white
+            , <&pro_micro_d 0  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> // blue   row 4     new black
+            ;
+
+        col-gpios
+            = <&pro_micro_d 15  GPIO_ACTIVE_HIGH>  // blue   col 11 new yellow
+            , <&pro_micro_d 14  GPIO_ACTIVE_HIGH>  // red    col 10 new green
+            , <&pro_micro_d 16  GPIO_ACTIVE_HIGH>  // black  col 9  new blue
+            , <&pro_micro_d 10  GPIO_ACTIVE_HIGH>  // green  col 8  new purple
+            , <&pro_micro_d 9   GPIO_ACTIVE_HIGH>  // yellow col 7  new grey
+            , <&pro_micro_d 8   GPIO_ACTIVE_HIGH>  // blue   col 6  new white
+            , <&pro_micro_d 7   GPIO_ACTIVE_HIGH>  // red    col 5  new black
+            , <&pro_micro_d 6   GPIO_ACTIVE_HIGH>  // black  col 4  new brown
+            , <&pro_micro_d 5   GPIO_ACTIVE_HIGH>  // green  col 3  new red
+            , <&pro_micro_d 4   GPIO_ACTIVE_HIGH>  // yellow col 2  new orange
+            , <&pro_micro_d 3   GPIO_ACTIVE_HIGH>  // blue   col 1  new yellow
+            , <&pro_micro_d 2   GPIO_ACTIVE_HIGH>  // red    col 0  new green
+            ;
+    };
+};
