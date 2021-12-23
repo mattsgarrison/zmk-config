@@ -6,7 +6,6 @@
 # settings that make sense to have different defaults when this shield is used. 
 
 if 12x5
-
-config ZMK_KEYBOARD_NAME
-    default "12x5 Ortholinear"
+    config ZMK_KEYBOARD_NAME
+        default "12x5 Ortholinear"
 endif
